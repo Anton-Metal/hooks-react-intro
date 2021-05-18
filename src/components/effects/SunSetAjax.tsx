@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { useMountedRef } from '../../hooks/useMountedRef'
 import { City } from '../../types/City'
 import { SunriseSunsetResponse, SunriseSunsetData } from '../../types/SunsetSunrise'
+
 
 const API_URL = 'https://api.sunrise-sunset.org/json'
 
@@ -20,6 +22,7 @@ const SunSetAjax = () => {
 	
 	const [cityName, setCityName] = useState('')
 	const [data, setData] = useState<null | SunriseSunsetData>(null)
+	const isMounted = useMountedRef()
 	
 	// funktionen ska inte retunera något värde därför är det void
 	const fetchSunriseSunset = async (fetchCityName: string ): Promise<void> => {
@@ -43,11 +46,19 @@ const SunSetAjax = () => {
 		// för att plocka ut datan från responsen
 		// får tillbaka data
 		const responseData: SunriseSunsetResponse = await response.json()
+
+
+		// kontrollera att komponenten finns innan vi ändrar state, alltså komponenten kankse inte längre är mounted
+		 if( isMounted.current ) {
+			 			 
 		//sparar data i state och behåll results from api:t
 		// sen spara resultatet med setData
 		setData(responseData.results)
 		//tala om vilket city man har klickat på 
 		setCityName(fetchCityName)
+
+		 }
+ 		
 	}
 
 	return (
