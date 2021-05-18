@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import ChangeTitle from './components/effects/ChangeTitle';
 import Clock from './components/effects/Clock';
+import SunSetAjax from './components/effects/SunSetAjax';
 import './App.css';
+
 
 
 function App() {
@@ -17,6 +19,11 @@ function App() {
 			{showTime ? <Clock /> : null}
 
 			<button onClick={() => setShowTime(!showTime)}> show/ hide time</button>
+
+			<hr />
+
+			<SunSetAjax />
+			
 		</main>
 
 		</div>
